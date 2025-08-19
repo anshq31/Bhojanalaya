@@ -1,4 +1,4 @@
-package com.example.mess.bhojanalaya.Model;
+package com.example.mess.bhojanalaya.Enums;
 
 public enum Role {
     STUDENT,

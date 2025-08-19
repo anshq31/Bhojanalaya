@@ -1,6 +1,6 @@
 package com.example.mess.bhojanalaya.Repository;
 
-import com.example.mess.bhojanalaya.Model.Role;
+import com.example.mess.bhojanalaya.Enums.Role;
 import com.example.mess.bhojanalaya.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,5 +1,7 @@
 package com.example.mess.bhojanalaya.Model;
 
+import com.example.mess.bhojanalaya.Enums.MealType;
+import com.example.mess.bhojanalaya.Enums.VisitStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

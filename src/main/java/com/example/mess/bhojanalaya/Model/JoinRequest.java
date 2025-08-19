@@ -1,5 +1,6 @@
 package com.example.mess.bhojanalaya.Model;
 
+import com.example.mess.bhojanalaya.Enums.JoinRequestStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
