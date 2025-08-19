@@ -37,4 +37,9 @@ public class MessServiceImpl implements MessService {
     public List<Mess> getAllMesses() {
         return messRepository.findAll();
     }
+
+    @Override
+    public void deleteMess(Long id) {
+        messRepository.deleteById(id);
+    }
 }

@@ -10,5 +10,5 @@ public interface MessService {
     Optional<Mess> getMessById(Long id);
     Optional<Mess> getMessByAdminId(Long adminId);
     List<Mess> getAllMesses();
-
+    void deleteMess(Long id);
 }

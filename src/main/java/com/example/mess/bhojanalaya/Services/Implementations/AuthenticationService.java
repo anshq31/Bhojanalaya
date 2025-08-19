@@ -13,6 +13,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -26,16 +29,23 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public JwtResponse registerUser(RegisterRequest request){
+
+
         var user = User.builder()
-                .name(request.getFullName())
+                .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.STUDENT)
+                .role(request.getRole() != null? request.getRole() : Role.STUDENT)
                 .build();
         userRepository.save(user);
 
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("name", user.getName());
+        extraClaims.put("email", user.getEmail());
+        extraClaims.put("role", user.getRole().name());
 
-        var jwtToken = jwtService.generateToken(user);
+
+        var jwtToken = jwtService.generateToken(extraClaims, user);
         return JwtResponse.builder()
                 .token(jwtToken)
                 .build();
@@ -51,7 +61,12 @@ public class AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        var jwtToken = jwtService.generateToken(user);
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("name", user.getName());
+        extraClaims.put("email", user.getEmail());
+        extraClaims.put("role", user.getRole().name());
+
+        var jwtToken = jwtService.generateToken(extraClaims,user);
 
         return JwtResponse.builder()
                 .token(jwtToken)

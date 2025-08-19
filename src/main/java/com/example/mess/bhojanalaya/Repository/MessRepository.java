@@ -6,6 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface MessRepository extends JpaRepository<Mess, Long> {
-
     Optional<Mess> findByAdminId(Long adminId);
 }
