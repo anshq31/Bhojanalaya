@@ -1,9 +1,9 @@
 package com.example.mess.bhojanalaya.Services.Implementations;
 
 import com.example.mess.bhojanalaya.Configuration.JwtService;
-import com.example.mess.bhojanalaya.DTO.AuthenticationRequest;
-import com.example.mess.bhojanalaya.DTO.JwtResponse;
-import com.example.mess.bhojanalaya.DTO.RegisterRequest;
+import com.example.mess.bhojanalaya.DTO.SecurityDto.AuthenticationRequest;
+import com.example.mess.bhojanalaya.DTO.SecurityDto.JwtResponse;
+import com.example.mess.bhojanalaya.DTO.SecurityDto.RegisterRequest;
 import com.example.mess.bhojanalaya.Enums.Role;
 import com.example.mess.bhojanalaya.Model.User;
 import com.example.mess.bhojanalaya.Repository.UserRepository;

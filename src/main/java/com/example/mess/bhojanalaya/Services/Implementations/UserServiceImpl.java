@@ -1,20 +1,12 @@
 package com.example.mess.bhojanalaya.Services.Implementations;
 
-import com.example.mess.bhojanalaya.Configuration.JwtService;
-import com.example.mess.bhojanalaya.DTO.JwtResponse;
-import com.example.mess.bhojanalaya.DTO.AuthenticationRequest;
-import com.example.mess.bhojanalaya.DTO.RegisterRequest;
 import com.example.mess.bhojanalaya.Enums.Role;
 import com.example.mess.bhojanalaya.Model.User;
 import com.example.mess.bhojanalaya.Repository.UserRepository;
 import com.example.mess.bhojanalaya.Services.Interfaces.UserService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

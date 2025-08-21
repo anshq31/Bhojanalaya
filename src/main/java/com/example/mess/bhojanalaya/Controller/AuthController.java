@@ -1,8 +1,8 @@
 package com.example.mess.bhojanalaya.Controller;
 
-import com.example.mess.bhojanalaya.DTO.AuthenticationRequest;
-import com.example.mess.bhojanalaya.DTO.JwtResponse;
-import com.example.mess.bhojanalaya.DTO.RegisterRequest;
+import com.example.mess.bhojanalaya.DTO.SecurityDto.AuthenticationRequest;
+import com.example.mess.bhojanalaya.DTO.SecurityDto.JwtResponse;
+import com.example.mess.bhojanalaya.DTO.SecurityDto.RegisterRequest;
 import com.example.mess.bhojanalaya.Repository.UserRepository;
 import com.example.mess.bhojanalaya.Services.Implementations.AuthenticationService;
 import com.example.mess.bhojanalaya.Services.Implementations.UserServiceImpl;

@@ -1,8 +1,5 @@
 package com.example.mess.bhojanalaya.Services.Interfaces;
 
-import com.example.mess.bhojanalaya.DTO.JwtResponse;
-import com.example.mess.bhojanalaya.DTO.AuthenticationRequest;
-import com.example.mess.bhojanalaya.DTO.RegisterRequest;
 import com.example.mess.bhojanalaya.Enums.Role;
 import com.example.mess.bhojanalaya.Model.User;
 

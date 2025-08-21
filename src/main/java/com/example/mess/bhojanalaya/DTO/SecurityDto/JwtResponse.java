@@ -1,4 +1,4 @@
-package com.example.mess.bhojanalaya.DTO;
+package com.example.mess.bhojanalaya.DTO.SecurityDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

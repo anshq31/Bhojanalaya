@@ -1,14 +1,17 @@
 package com.example.mess.bhojanalaya.Services.Interfaces;
 
-import com.example.mess.bhojanalaya.Model.Mess;
+import com.example.mess.bhojanalaya.DTO.MessDto.MessRequestDto;
+import com.example.mess.bhojanalaya.DTO.MessDto.MessResponseDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface MessService {
-    Mess createMess(Mess mess);
-    Optional<Mess> getMessById(Long id);
-    Optional<Mess> getMessByAdminId(Long adminId);
-    List<Mess> getAllMesses();
+    Optional<MessResponseDto> createMess(MessRequestDto messRequestDto);
+    Optional<MessResponseDto> getMessById(Long id);
+    Optional<MessResponseDto> getMessByAdminId(Long adminId);
+    List<Optional<MessResponseDto>> getAllMesses();
     void deleteMess(Long id);
+    MessResponseDto updateMess(Long id, MessResponseDto messResponseDto);
+
 }
