@@ -12,6 +12,6 @@ public interface MessService {
     Optional<MessResponseDto> getMessByAdminId(Long adminId);
     List<Optional<MessResponseDto>> getAllMesses();
     void deleteMess(Long id);
-    MessResponseDto updateMess(Long id, MessResponseDto messResponseDto);
+    Optional<MessResponseDto> updateMess(Long id, MessRequestDto messRequestDto);
 
 }

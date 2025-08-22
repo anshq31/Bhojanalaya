@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class MessRequestDto {
     private String name;
     private String location;
-    private long adminId;
+    private Long adminId;
 }

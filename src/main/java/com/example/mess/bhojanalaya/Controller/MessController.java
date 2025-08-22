@@ -3,6 +3,7 @@ package com.example.mess.bhojanalaya.Controller;
 import com.example.mess.bhojanalaya.DTO.MessDto.MessRequestDto;
 import com.example.mess.bhojanalaya.DTO.MessDto.MessResponseDto;
 import com.example.mess.bhojanalaya.Model.Mess;
+import com.example.mess.bhojanalaya.Services.Implementations.MessServiceImpl;
 import com.example.mess.bhojanalaya.Services.Interfaces.MessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,9 @@ import java.util.Optional;
 public class MessController {
 
     @Autowired
-    private final MessService messService;
+    private final MessServiceImpl messService;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<Optional<MessResponseDto>> createMess(@RequestBody MessRequestDto messRequestDto){
         return ResponseEntity.ok(messService.createMess(messRequestDto));
@@ -37,5 +38,21 @@ public class MessController {
         return ResponseEntity.ok(messService.getAllMesses());
     }
 
+
+    @DeleteMapping("/{id}")
+    public void deleteMessById(@PathVariable Long id){
+         messService.deleteMess(id);
+    }
+
+    @GetMapping("/admin/{adminId}")
+    public ResponseEntity<Optional<MessResponseDto>> getMessByAdminId(@PathVariable Long adminId){
+        return ResponseEntity.ok(messService.getMessByAdminId(adminId));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/{messId}")
+    public ResponseEntity<Optional<MessResponseDto>> updateMess(@PathVariable Long messId , @RequestBody MessRequestDto messRequestDto){
+        return ResponseEntity.ok(messService.updateMess(messId,messRequestDto));
+    }
     
 }

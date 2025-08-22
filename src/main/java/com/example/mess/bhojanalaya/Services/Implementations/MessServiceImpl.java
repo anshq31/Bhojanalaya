@@ -2,6 +2,7 @@ package com.example.mess.bhojanalaya.Services.Implementations;
 
 import com.example.mess.bhojanalaya.DTO.MessDto.MessRequestDto;
 import com.example.mess.bhojanalaya.DTO.MessDto.MessResponseDto;
+import com.example.mess.bhojanalaya.Enums.Role;
 import com.example.mess.bhojanalaya.Model.Mess;
 import com.example.mess.bhojanalaya.Model.User;
 import com.example.mess.bhojanalaya.Repository.MessRepository;
@@ -52,7 +53,10 @@ public class MessServiceImpl implements MessService {
 
     @Override
     public Optional<MessResponseDto> getMessByAdminId(Long adminId) {
-        return Optional.empty();
+        Mess mess = messRepository.findByAdminId(adminId)
+                .orElseThrow(()-> new RuntimeException("No mess under this Admin"));
+
+        return toResponse(mess);
     }
 
 
@@ -70,8 +74,27 @@ public class MessServiceImpl implements MessService {
     }
 
     @Override
-    public MessResponseDto updateMess(Long id, MessResponseDto messResponseDto) {
-        return null;
+    public Optional<MessResponseDto> updateMess(Long messId, MessRequestDto messRequestDto) {
+        Mess mess = messRepository.findById(messId)
+                .orElseThrow(()-> new RuntimeException("Mess not found with id :"+ messId));
+
+        mess.setName(messRequestDto.getName());
+        mess.setLocation(messRequestDto.getLocation());
+
+        if (messRequestDto.getAdminId() != null){
+            User admin = userRepository.findById(messRequestDto.getAdminId())
+                    .orElseThrow(()-> new RuntimeException("Admin was not found with id"+messRequestDto.getAdminId()));
+
+            if (admin.getRole() != Role.ADMIN) {
+                throw new RuntimeException("Only admins can be assigned to a mess");
+            }
+
+            mess.setAdmin(admin);
+        }
+
+        Mess updatedMess = messRepository.save(mess);
+
+        return toResponse(updatedMess);
     }
 
     private Optional<MessResponseDto> toResponse(Mess mess){
