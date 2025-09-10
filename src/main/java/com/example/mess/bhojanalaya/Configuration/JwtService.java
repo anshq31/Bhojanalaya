@@ -24,9 +24,6 @@ import java.util.logging.Logger;
 @Service
 public class JwtService {
 
-//    private static final String SECRET_KEY = "8f2d4a6e1b3c9d7f0e5a2b8c4d6f1e3a7b9c0d2e4f6a8b1c3d5e7f9a0b2c4d6";
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(JwtService.class);
-
     @Value("${spring.app.jwtSecretKey}")
     private String jwtSecretKey;
 
