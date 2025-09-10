@@ -9,4 +9,5 @@ import java.util.List;
 public interface JoinRequestRepository extends JpaRepository<JoinRequest, Long> {
     List<JoinRequest> findByMessIdAndStatus(Long messId, JoinRequestStatus status);
     List<JoinRequest> findByStudentId(Long studentId);
+    List<JoinRequest> findByMessAdminId(Long adminId);
 }

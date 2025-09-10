@@ -1,5 +1,7 @@
 package com.example.mess.bhojanalaya.Services.Implementations;
 
+import com.example.mess.bhojanalaya.DTO.JoinRequestDto.MessJoinRequestDto;
+import com.example.mess.bhojanalaya.DTO.JoinRequestDto.MessJoinRequestResponseDto;
 import com.example.mess.bhojanalaya.Model.JoinRequest;
 import com.example.mess.bhojanalaya.Enums.JoinRequestStatus;
 import com.example.mess.bhojanalaya.Model.Mess;
@@ -23,36 +25,78 @@ public class JoinRequestServiceImpl implements JoinRequestService {
     @Autowired
     private MessRepository messRepository;
 
-    @Override
-    public JoinRequest createRequest(Long studentId, Long messId) {
-        User student = userRepository.findById(studentId).orElseThrow();
-        Mess mess = messRepository.findById(messId).orElseThrow();
 
-        JoinRequest Request = JoinRequest.builder()
+
+    @Override
+    public MessJoinRequestResponseDto createRequest(Long studentId, MessJoinRequestDto messJoinRequestDto) {
+        User student = userRepository.findById(studentId).orElseThrow(
+                ()-> new RuntimeException("User could not be found"));
+
+
+        Mess mess = messRepository.findById(messJoinRequestDto.getMessId()).
+                orElseThrow(()-> new RuntimeException("Mess could not be found"));
+
+        JoinRequest joinRequest = JoinRequest.builder()
                 .student(student)
                 .mess(mess)
                 .status(JoinRequestStatus.PENDING)
                 .requestedAt(java.time.LocalDateTime.now())
                 .build();
 
-        return joinRequestRepository.save(Request);
+         joinRequestRepository.save(joinRequest);
+
+         return toResponseDto(joinRequest);
     }
 
     @Override
-    public List<JoinRequest> getRequestsByStudent(Long studentId) {
-        return joinRequestRepository.findByStudentId(studentId);
+    public List<MessJoinRequestResponseDto> getRequestsByStudent(Long studentId) {
+        User student = userRepository.findById(studentId)
+                .orElseThrow(()-> new RuntimeException("Student not found"));
+        List<JoinRequest> requests = joinRequestRepository.findByStudentId(student.getId());
+
+        return requests.stream().map(this::toResponseDto).toList();
     }
 
     @Override
-    public List<JoinRequest> getPendingRequestsForMess(Long messId) {
-        return joinRequestRepository.findByMessIdAndStatus(messId, JoinRequestStatus.PENDING);
+    public List<MessJoinRequestResponseDto> getPendingRequestsForMess(Long messId) {
+        List<JoinRequest> pendingRequests =  joinRequestRepository.findByMessIdAndStatus(messId, JoinRequestStatus.PENDING);
+
+        return pendingRequests.stream().map(this::toResponseDto).toList();
     }
 
     @Override
-    public JoinRequest updateRequestStatus(Long requestId, JoinRequestStatus status) {
-        JoinRequest req = joinRequestRepository.findById(requestId)
+    public MessJoinRequestResponseDto approveRequest(Long requestId) {
+        JoinRequest request = joinRequestRepository.findById(requestId)
                 .orElseThrow(() -> new RuntimeException("Join Request not found"));
-        req.setStatus(status);
-        return joinRequestRepository.save(req);
+        request.setStatus(JoinRequestStatus.APPROVED);
+        joinRequestRepository.save(request);
+        return toResponseDto(request);
+    }
+
+    @Override
+    public MessJoinRequestResponseDto rejectRequest(Long requestId) {
+        JoinRequest request = joinRequestRepository.findById(requestId)
+                .orElseThrow(()-> new RuntimeException("Join Request not found"));
+        request.setStatus(JoinRequestStatus.REJECTED);
+        joinRequestRepository.save(request);
+        return toResponseDto(request);
+    }
+
+    @Override
+    public List<MessJoinRequestResponseDto> getRequestByAdmin(Long adminId) {
+        List<JoinRequest> requests = joinRequestRepository.findByMessAdminId(adminId);
+        return requests.stream().map(this::toResponseDto).toList();
+    }
+
+    private MessJoinRequestResponseDto toResponseDto(JoinRequest joinRequest){
+        return MessJoinRequestResponseDto.builder()
+                .id(joinRequest.getId())
+                .studentName(joinRequest.getStudent().getName())
+                .messName(joinRequest.getMess().getName())
+                .joinRequestStatus(joinRequest.getStatus().name())
+                .requestedAt(joinRequest.getRequestedAt())
+                .build();
     }
 }
+
+

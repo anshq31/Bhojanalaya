@@ -38,7 +38,7 @@ public class MessController {
         return ResponseEntity.ok(messService.getAllMesses());
     }
 
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
     public void deleteMessById(@PathVariable Long id){
          messService.deleteMess(id);

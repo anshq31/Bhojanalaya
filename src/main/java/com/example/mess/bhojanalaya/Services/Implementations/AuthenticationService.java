@@ -7,7 +7,12 @@ import com.example.mess.bhojanalaya.DTO.SecurityDto.RegisterRequest;
 import com.example.mess.bhojanalaya.Enums.Role;
 import com.example.mess.bhojanalaya.Model.User;
 import com.example.mess.bhojanalaya.Repository.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +33,7 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
-    public JwtResponse registerUser(RegisterRequest request){
+    public JwtResponse registerUser(RegisterRequest request, HttpServletResponse response){
 
 
         var user = User.builder()
@@ -46,12 +51,14 @@ public class AuthenticationService {
 
 
         var jwtToken = jwtService.generateToken(extraClaims, user);
+
+
         return JwtResponse.builder()
                 .token(jwtToken)
                 .build();
     }
 
-    public JwtResponse authenticateUser(AuthenticationRequest request){
+    public JwtResponse authenticateUser(AuthenticationRequest request, HttpServletResponse response){
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -66,11 +73,33 @@ public class AuthenticationService {
         extraClaims.put("email", user.getEmail());
         extraClaims.put("role", user.getRole().name());
 
-        var jwtToken = jwtService.generateToken(extraClaims,user);
+        var jwtToken = jwtService.generateJwtCookie(user);
+
+
 
         return JwtResponse.builder()
                 .token(jwtToken)
                 .build();
 
     }
+
+//    private void addJwtToCookie(String jwtToken , HttpServletResponse response){
+//        Cookie cookie = new Cookie("jwt", jwtToken);
+//
+//        cookie.setHttpOnly(true);
+//        cookie.setSecure(false);
+//        cookie.setPath("/api");
+//        cookie.setMaxAge(1000*60*60*24);
+//        response.addCookie(cookie);
+//    }
+//
+//    public void logOut(HttpServletResponse response){
+//        Cookie cookie = new Cookie("jwt",null);
+//        cookie.setHttpOnly(true);
+//        cookie.setSecure(false);
+//        cookie.setPath("/api");
+//        cookie.setMaxAge(0);
+//        response.addCookie(cookie);
+//    }
+
 }
