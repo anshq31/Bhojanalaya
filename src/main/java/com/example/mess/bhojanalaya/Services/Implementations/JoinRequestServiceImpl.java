@@ -91,7 +91,7 @@ public class JoinRequestServiceImpl implements JoinRequestService {
     private MessJoinRequestResponseDto toResponseDto(JoinRequest joinRequest){
         return MessJoinRequestResponseDto.builder()
                 .id(joinRequest.getId())
-                .studentName(joinRequest.getStudent().getName())
+                .studentName(joinRequest.getStudent().getUsername())
                 .messName(joinRequest.getMess().getName())
                 .joinRequestStatus(joinRequest.getStatus().name())
                 .requestedAt(joinRequest.getRequestedAt())

@@ -103,7 +103,7 @@ public class MessServiceImpl implements MessService {
                 .name(mess.getName())
                 .location(mess.getLocation())
                 .adminId(mess.getAdmin().getId())
-                .adminName(mess.getAdmin().getName())
+                .adminName(mess.getAdmin().getUsername())
                 .studentCount(mess.getStudents() != null ? mess.getStudents().size() : 0)
                 .build());
     }

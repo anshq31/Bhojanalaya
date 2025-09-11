@@ -21,7 +21,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String username;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -70,4 +70,18 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public User(String name, String email, String password){
+        this.username = name;
+        this.email = email;
+        this.password = password;
+    }
+    public User(Long id,String name, String email, String password, Role role){
+        this.id = id;
+        this.username = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
 }
